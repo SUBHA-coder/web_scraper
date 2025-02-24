@@ -9,6 +9,34 @@
 </head>
 <body>
     <div class="app">
+        <!-- Navigation Bar -->
+        <nav class="top-nav">
+            <div class="nav-brand">
+                <i data-lucide="search"></i>
+                <span>Web Scraping & Analysis</span>
+            </div>
+
+            <div class="nav-account">
+                <!-- Auth Buttons (Hidden when logged in) -->
+                <div id="authButtons">
+                    <button class="auth-button" id="loginButton" onclick="openAuthModal('login')">Login</button>
+                    <button class="auth-button" id="signupButton" onclick="openAuthModal('signup')">Sign Up</button>
+                </div>
+
+                <!-- User Panel (Hidden when not logged in) -->
+                <div id="userPanel" class="hidden">
+                    <div class="user-info">
+                        <i data-lucide="user"></i>
+                        <span id="userName"></span>
+                    </div>
+                    <button class="logout-button" onclick="handleLogout()">
+                        <i data-lucide="log-out"></i>
+                        <span>Sign Out</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
         <!-- Header Section -->
         <header>
             <h1>Web Scraping & Analysis</h1>
@@ -64,7 +92,9 @@
                 </form>
             </div>
         </div>
-    </div>
+
+       
+
     <script src="/static/script.js"></script>
 </body>
 </html>

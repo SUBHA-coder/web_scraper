@@ -25,10 +25,73 @@ body {
     line-height: 1.5;
 }
 
+/* Top Navigation Bar */
+.top-nav {
+    background-color: var(--bg-primary);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--bg-tertiary);
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.nav-brand i {
+    color: var(--accent);
+}
+
+.nav-account {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+}
+
+.user-info i {
+    color: var(--text-secondary);
+}
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--bg-tertiary);
+    border-radius: 0.5rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.logout-button:hover {
+    background-color: var(--bg-tertiary);
+    color: var(--danger);
+}
+
+.logout-button i {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
 /* Layout */
 .app {
     min-height: 100vh;
-    padding: 2rem 1rem;
 }
 
 header {
@@ -52,7 +115,7 @@ header p {
 }
 
 .container {
-    max-width: 90%;
+    max-width: 1600px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr;
@@ -247,7 +310,6 @@ header p {
     display: flex;
     flex-direction: column;
     height: 600px;
-    width:600px;
 }
 
 .chat-messages {
@@ -258,7 +320,7 @@ header p {
 }
 
 .message {
-    max-width: 60%;
+    max-width: 90%;
     padding: 0.75rem;
     border-radius: 0.75rem;
     margin-bottom: 1rem;
@@ -344,92 +406,4 @@ header p {
         opacity: 1;
         transform: translateY(0);
     }
-}
-/* Add to your existing styles.css */
-
-.auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f5f5f5;
-}
-
-.auth-box {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-}
-
-.auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.form-group label {
-    font-weight: 500;
-    color: #333;
-}
-
-.form-group input {
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-.auth-form button {
-    background-color: #007bff;
-    color: white;
-    padding: 0.75rem;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.auth-form button:hover {
-    background-color: #0056b3;
-}
-
-.auth-link {
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.auth-link a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.auth-link a:hover {
-    text-decoration: underline;
-}
-
-/* Add a logout button style to your existing header */
-.logout-btn {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.logout-btn:hover {
-    background-color: #c82333;
 }
