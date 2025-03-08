@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="/static/styles.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
     <div class="app">
         <!-- Navigation Bar -->
@@ -29,7 +31,7 @@
                         <i data-lucide="user"></i>
                         <span id="userName"></span>
                     </div>
-                    <button class="logout-button" onclick="handleLogout()">
+                    <button class="logout-button" id="logoutButton">
                         <i data-lucide="log-out"></i>
                         <span>Sign Out</span>
                     </button>
@@ -51,21 +53,21 @@
                     <i data-lucide="link"></i>
                     Selected Sources
                 </h2>
+
+                <button class="scrape-button" onclick="scrapeSelectedSources()">Scrape Selected Sources</button>
+
                 <div class="selected-links" id="selectedLinks">
                     <p class="empty-state">No sources selected</p>
                 </div>
             </div>
+
 
             <!-- Center Panel - Search & Results -->
             <div class="panel search-panel">
                 <form id="searchForm" class="search-form">
                     <div class="search-input-container">
                         <i data-lucide="search"></i>
-                        <input 
-                            type="text" 
-                            placeholder="Enter your search query..."
-                            id="searchInput"
-                        >
+                        <input type="text" placeholder="Enter your search query..." id="searchInput">
                         <button type="submit" id="searchButton">Search</button>
                     </div>
                 </form>
@@ -81,11 +83,7 @@
                 </h2>
                 <div class="chat-messages" id="chatMessages"></div>
                 <form id="chatForm" class="chat-input-form">
-                    <input 
-                        type="text" 
-                        placeholder="Ask a question..."
-                        id="chatInput"
-                    >
+                    <input type="text" placeholder="Ask a question..." id="chatInput">
                     <button type="submit">
                         <i data-lucide="send"></i>
                     </button>
@@ -93,8 +91,9 @@
             </div>
         </div>
 
-       
 
-    <script src="/static/script.js"></script>
+
+        <script src="/static/script.js"></script>
 </body>
+
 </html>

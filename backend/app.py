@@ -9,6 +9,8 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from duckduckgo_search import DDGS  # Using DuckDuckGo for search
 from flask_bcrypt import Bcrypt
 from pymongo import MongoClient
+from dotenv import load_dotenv
+load_dotenv()
 
 # Flask setup
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
@@ -32,8 +34,8 @@ os.makedirs("data", exist_ok=True)
 def fetch_search_links(query):
     try:
         with DDGS() as ddgs:
-            search_results = ddgs.text(query, max_results=10)
-            links = [result["href"] for result in search_results if "href" in result]
+            search_results = ddgs.text(query, max_results=10)  # DuckDuckGo search
+            links = [result.get("href", "#") for result in search_results if "href" in result]
             return links if links else ["No relevant results found."]
     except Exception as e:
         return {"error": f"Error fetching search results: {str(e)}"}
@@ -62,20 +64,19 @@ def scrape_website(url):
 def ask_llm(question):
     try:
         file_path = "data/scraped_data.txt"
-        if not os.path.exists(file_path):
-            return "No scraped data available. Please scrape a website first."
+        if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
+            return "No scraped data available. Please scrape selected sources first."
 
         with open(file_path, "r", encoding="utf-8") as file:
             document_text = file.read()
 
         document = Document(text=document_text)
 
-        # Initialize Groq LLaMA model
+        # Initialize LlamaIndex
         llm = Groq(api_key=GROQ_API_KEY, model="llama3-8b-8192")
         Settings.llm = llm
         Settings.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en")
 
-        # Create a LlamaIndex vector store
         index = VectorStoreIndex.from_documents([document])
         query_engine = index.as_query_engine()
 
@@ -96,31 +97,48 @@ def login_page():
 def signup_page():
     return render_template('signup.html')
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/search', methods=['GET'])
 def search():
-    if request.method == 'GET':
-        query = request.args.get('q')  # Extract query from URL parameter
-        if not query:
-            return jsonify({"error": "No query provided"}), 400
-        return jsonify({"message": f"Search for {query} received!"})
-    
-    elif request.method == 'POST':
-        data = request.json
-        query = data.get('query')
-        if not query:
-            return jsonify({"error": "No query provided"}), 400
-        return jsonify({"message": f"Search for {query} received!"})
+    query = request.args.get('q')
+    if not query:
+        return jsonify({"error": "No query provided"}), 400
+
+    links = fetch_search_links(query)  # Get only links
+
+    return jsonify({"results": links})  # Return list of links
+
 
 
 @app.route('/scrape', methods=['POST'])
 def scrape():
     data = request.json
-    url = data.get("url")
-    if not url:
-        return jsonify({"error": "URL is required"}), 400
+    urls = data.get("urls")  # Expecting multiple URLs from frontend
 
-    scraped_text = scrape_website(url)
-    return jsonify({"message": "Scraping completed", "data": scraped_text})
+
+    if not urls or not isinstance(urls, list):
+        return jsonify({"error": "A list of URLs is required"}), 400
+
+    scraped_texts = []  # Store all scraped content
+
+    for url in urls:
+        text = scrape_website(url)
+        if text.startswith("Error"):  
+            print(f"Skipping failed scrape: {url}")  # Debugging
+            continue  
+
+        scraped_texts.append(f"Source: {url}\n{text}")  # Add source info
+
+    if not scraped_texts:
+        return jsonify({"error": "Failed to scrape any content"}), 500
+
+    # Save all scraped data to a single file (overwrite old data)
+    file_path = "data/scraped_data.txt"
+    with open(file_path, "w", encoding="utf-8") as file:
+        file.write("\n\n".join(scraped_texts))  # Separate sources
+
+    return jsonify({"message": "Scraping completed", "scraped_count": len(scraped_texts)})
+
+
 
 @app.route('/ask', methods=['POST'])
 def ask():

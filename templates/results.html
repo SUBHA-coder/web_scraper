@@ -1,34 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Query Results</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="static/styles.css">
-</head>
-<body class="bg-gray-900 text-white flex flex-col items-center justify-center h-screen">
 
-    <header class="bg-gray-800 py-4 text-center text-2xl font-semibold w-full">
-        Query Results
+    <!-- Correct Tailwind CSS Import -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="static/styles.css" />
+  </head>
+  <body
+    class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen"
+  >
+    <!-- Header -->
+    <header
+      class="bg-gray-800 py-4 text-center text-2xl font-semibold w-full shadow-md"
+    >
+      Query Results
     </header>
 
-    <main class="max-w-3xl mx-auto mt-8 p-6 bg-gray-800 rounded-lg shadow-lg text-center">
-        <h2 class="text-lg font-semibold text-blue-400">Your Answer:</h2>
-        <p id="answerText" class="mt-4 p-4 bg-gray-700 rounded-md text-white text-lg font-medium"></p>
-        <a href="../frontend/index.html">
-            <button class="mt-6 p-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md transition">
-                Go Back
-            </button>
-        </a>
+    <!-- Main Content -->
+    <main
+      class="max-w-3xl mx-auto mt-8 p-6 bg-gray-800 rounded-lg shadow-lg text-center"
+    >
+      <h2 class="text-lg font-semibold text-blue-400">Your Answer:</h2>
+
+      <!-- Answer Display -->
+      <p
+        id="answerText"
+        class="mt-4 p-4 bg-gray-700 rounded-md text-white text-lg font-medium"
+      >
+        Loading...
+      </p>
+
+      <!-- Go Back Button -->
+      <a href="../frontend/index.html">
+        <button
+          class="mt-6 p-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md transition duration-300 shadow-md"
+        >
+          Go Back
+        </button>
+      </a>
     </main>
 
+    <!-- JavaScript for Handling Query Params -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const params = new URLSearchParams(window.location.search);
-            const answer = params.get("answer");
-            document.getElementById("answerText").innerText = answer || "No answer available.";
-        });
+      document.addEventListener("DOMContentLoaded", function () {
+        const params = new URLSearchParams(window.location.search);
+        const answer = params.get("answer");
+
+        const answerText = document.getElementById("answerText");
+        if (answer) {
+          answerText.innerText = answer;
+        } else {
+          answerText.innerText = "No answer available.";
+          answerText.classList.add("text-gray-400");
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
