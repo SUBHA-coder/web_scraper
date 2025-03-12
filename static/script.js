@@ -191,9 +191,21 @@ if (chatForm) {
 function addMessage(sender, message) {
   const msgDiv = document.createElement("div");
   msgDiv.classList.add("chat-message", sender);
-  msgDiv.innerHTML = `<p>${message}</p>`;
+
+  // Check if it's a bot message and add an icon
+  if (sender === "bot") {
+      msgDiv.innerHTML = `
+          <i data-lucide="bot" class="bot-icon"></i>
+          <p>${message}</p>`;
+  } else {
+      msgDiv.innerHTML = `<p>${message}</p>`;
+  }
+
   chatMessages.appendChild(msgDiv);
   chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  // Re-render Lucide icons after adding new elements
+  lucide.createIcons();
 }
 
 // **Initialize authentication state**

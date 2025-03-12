@@ -27,6 +27,8 @@ body {
 
 /* Top Navigation Bar */
 .top-nav {
+    position: sticky;
+    top: 0;
     background-color: var(--bg-primary);
     padding: 1rem 2rem;
     display: flex;
@@ -34,6 +36,8 @@ body {
     align-items: center;
     border-bottom: 1px solid var(--bg-tertiary);
     box-shadow: 0 2px 4px var(--shadow);
+    z-index: 1000;
+    transition: var(--transition);
 }
 
 .nav-brand {
@@ -43,10 +47,12 @@ body {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--text-primary);
+    transition: var(--transition);
 }
 
 .nav-brand i {
     color: var(--accent);
+    font-size: 1.75rem;
 }
 
 .nav-account {
@@ -54,15 +60,59 @@ body {
     align-items: center;
     gap: 1.5rem;
 }
+/* /////////////////////////////////////////////////////////// */
+/* Authentication Buttons */
+.auth-button {
+    padding: 0.5rem 1.25rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent; /* Consistent border */
+    box-sizing: border-box; /* Ensure padding includes border */
+}
 
+#loginButton {
+    background-color: var(--accent);
+    color: white;
+}
+
+#loginButton:hover {
+    background-color: var(--accent-hover);
+    border: 2px solid var(--accent);
+    /* transform: translateY(-2px); */
+}
+
+#signupButton {
+    background-color: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+}
+
+#signupButton:hover {
+    background-color: var(--accent);
+    color: white;
+}
+
+/* //////////////////////////////////////////////// */
 .user-info {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--bg-tertiary);
+    border-radius: 0.5rem;
+    font-weight: 500;
     color: var(--text-primary);
+    cursor: default;
+    transition: var(--transition);
 }
 
 .user-info i {
+    font-size: 1.5rem;
     color: var(--text-secondary);
 }
 
@@ -71,10 +121,11 @@ body {
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--bg-tertiary);
+    background-color: var(--danger);
+    border: none;
     border-radius: 0.5rem;
-    color: var(--text-primary);
+    color: white;
+    font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
 }
@@ -82,13 +133,20 @@ body {
 .logout-button:hover {
     background-color: var(--bg-tertiary);
     color: var(--danger);
+    transform: translateY(-2px);
 }
 
 .logout-button i {
     width: 1.25rem;
     height: 1.25rem;
+    font-size: 1.25rem;
 }
-
+/* Align User Panel */
+#userPanel {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 /* Layout */
 .app {
     min-height: 100vh;
@@ -135,6 +193,9 @@ header p {
     border-radius: 1rem;
     padding: 1.5rem;
     box-shadow: 0 4px 6px var(--shadow);
+    height: 600px;
+    display: flex;
+    flex-direction: column;
 }
 
 .panel h2 {
@@ -145,8 +206,54 @@ header p {
     align-items: center;
     gap: 0.5rem;
     color: var(--text-primary);
+    flex-shrink: 0;
+
+}
+/* Adjust Buttons to Stay at the Top */
+.scrape-button {
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+    background-color: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+}
+.scrape-button:hover {
+    background-color: var(--accent);
+    color: white;
 }
 
+/* ///////////////////////////////////////////////// */
+/* Make Content Scrollable */
+.selected-links,
+.search-results {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+/* Scrollbar Styling for Consistency */
+.selected-links::-webkit-scrollbar,
+.search-results::-webkit-scrollbar {
+    width: 8px;
+}
+
+.selected-links::-webkit-scrollbar-track,
+.search-results::-webkit-scrollbar-track {
+    background-color: var(--bg-secondary);
+    border-radius: 9999px;
+}
+
+.selected-links::-webkit-scrollbar-thumb,
+.search-results::-webkit-scrollbar-thumb {
+    background-color: var(--bg-tertiary);
+    border-radius: 9999px;
+}
+
+.selected-links::-webkit-scrollbar-thumb:hover,
+.search-results::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-secondary);
+}
+/* //////////////////////////////////////////////////////// */
 /* Search Panel */
 .search-input-container {
     position: relative;
@@ -319,25 +426,43 @@ header p {
     padding-right: 0.5rem;
 }
 
-.message {
-    max-width: 90%;
+.chat-message {
+    max-width: 70%;
     padding: 0.75rem;
     border-radius: 0.75rem;
     margin-bottom: 1rem;
     animation: fadeIn 0.3s ease-out;
+    word-wrap: break-word;
 }
 
-.message.user {
+.chat-message.user {
     background-color: var(--accent);
     color: white;
     margin-left: auto;
+    align-self: flex-end;
 }
 
-.message.ai {
+.chat-message.bot {
     background-color: var(--bg-tertiary);
     color: var(--text-primary);
     margin-right: auto;
+    align-self: flex-start;
+} 
+/* Bot message icon */
+.chat-message.bot {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
+
+.bot-icon {
+    width: 20%;
+    height: 20%;
+    color: var(--accent-hover);
+    flex-shrink: 0;
+}
+
+
 
 .chat-input-form {
     position: relative;
@@ -394,7 +519,8 @@ header p {
 
 ::-webkit-scrollbar-thumb:hover {
     background-color: var(--text-secondary);
-}
+} 
+
 
 /* Animations */
 @keyframes fadeIn {
